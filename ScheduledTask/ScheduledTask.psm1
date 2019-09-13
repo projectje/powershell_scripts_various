@@ -1,6 +1,12 @@
 <#
     .SYNOPSIS
         Schedules a Task in Windows Task Scheduler, removes existing tasks
+    .EXAMPLE
+        $removetaskkeywords = @{ prerun = ''}
+        Remove-ScheduledTaskByKeyword -task_keywords $removetaskkeywords
+        $script='c:\temp\mypowershellscript.ps1'
+        New-TaskInScheduler -executetask 'wscript' -executeparameters "`"$PSScriptRoot\prerun.vbs`" `"$script`"" -taskname "MyTask" -taskdescription "Cool Task" -taskpath "mytasks" -minutes 5
+        Get-ScheduledTasks -path c:\temp\tasks.txt
 #>
 
 function Remove-ScheduledTaskByKeyword
@@ -19,8 +25,8 @@ function Remove-ScheduledTaskByKeyword
         $taskexec = $task.actions.Execute -replace '.*\\'
         $taskarguments = $task.actions.Arguments
         $taskname = $task.TaskName
-        foreach($kv in $task_keywords) {
-            if ($kv.Value -eq '') {
+        foreach($key in $task_keywords.Keys) {
+            if ($task_keywords[$key] -eq '') {
                 if ($taskexec.ToLower() -like ('*'+$kv.Key+'*')) {
                     Unregister-ScheduledTask -TaskName $taskname -Confirm:$false
                 }
@@ -73,4 +79,15 @@ function New-TaskInScheduler
     $s1 = New-ScheduledTaskSettingsSet -Hidden -ExecutionTimeLimit (New-TimeSpan -Hours 1)
     Register-ScheduledTask -Trigger $t1 -Action $a1 -TaskName $taskname -Description $taskdescription -TaskPath $taskpath -Settings $s1 -RunLevel Highest
     #New-ScheduledTask -Trigger $t1 -Action $a1 -TaskName $taskname -Description $taskdescription
+}
+
+function Get-ScheduledTasks
+{
+    param (
+        # path to export text file
+        [Parameter(Mandatory = $true)]
+        [string]
+        $path
+    )
+    get-scheduledtask | Out-file  $path
 }
