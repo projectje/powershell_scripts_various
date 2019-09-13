@@ -1,7 +1,7 @@
-Import-Module "$PSScriptRoot\.\Modules\MailGun.psm1" -Force
+Import-Module "$PSScriptRoot\MailGun.psm1" -Force
 
-$from = "test@example.com"
-$to = "test2@example.com"
+$from = "test@test.net"
+$to = "test2@test.net"
 $subject = "a mail with a subject"
 $html = "this <b>test with attachments</b> text<br/> And another interesting line <hr />"
 $attachments = @{
