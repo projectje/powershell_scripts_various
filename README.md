@@ -8,3 +8,4 @@ PowerShell Scripts , various collection
 - TeamViewer: get the Teamviewer url
 - Config: reads a config file and returns a config object
 - ScheduledTask: removes task, adds task in Windows Task Scheduler
+- Process: starts a process if down returns, returns if unresponding, process info in HTML format

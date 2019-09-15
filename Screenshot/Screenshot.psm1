@@ -168,7 +168,7 @@ function Assert-PixelChangeOnScreenOnePixel
     )
     $changed = Assert-PixelChangeOnScreen -seconds $seconds -amountOfColors $amountOfColors
     if ($null -ne $changed) {
-        if (($changed[0].Count -eq 0) -and ($changed[1].Count -eq 0) -and ($changed[2].Count -le 2)) {
+        if (($changed[0].Count -eq 0) -and ($changed[1].Count -eq 0) -and ($changed[2].Count -le $amountOfColors)) {
             return $changed[2]
         }
     }

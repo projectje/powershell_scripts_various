@@ -95,9 +95,11 @@ function Send-MailgunEmail() {
         html    = "<html>$htmlText</html>"
     }
     if ($bcc) { $data.Add('bcc', [string]($bcc -join ',')) }
-    foreach ($attachment in $attachments.GetEnumerator()) {
-        $attachmentbytes = [IO.File]::ReadAllBytes($attachment.Value)
-        $data.Add($attachment.Name, $attachmentbytes)
+    if ($attachments) {
+        foreach ($attachment in $attachments.GetEnumerator()) {
+            $attachmentbytes = [IO.File]::ReadAllBytes($attachment.Value)
+            $data.Add($attachment.Name, $attachmentbytes)
+        }
     }
 
     $url = "https://api.mailgun.net/v3/$($emaildomain)/messages"
