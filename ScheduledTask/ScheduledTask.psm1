@@ -27,11 +27,11 @@ function Remove-ScheduledTaskByKeyword
         $taskname = $task.TaskName
         foreach($key in $task_keywords.Keys) {
             if ($task_keywords[$key] -eq '') {
-                if ($taskexec.ToLower() -like ('*'+$kv.Key+'*')) {
+                if ($taskexec.ToLower() -like ('*'+$key+'*')) {
                     Unregister-ScheduledTask -TaskName $taskname -Confirm:$false
                 }
             } else {
-                if ($taskexec.ToLower() -like  ('*'+$kv.Key+'*') -and $taskarguments.ToLower() -like  ('*'+$kv.Value+'*')) {
+                if ($taskexec.ToLower() -like  ('*'+$key+'*') -and $taskarguments.ToLower() -like  ('*'+$task_keywords[$key]+'*')) {
                     Unregister-ScheduledTask -TaskName $taskname -Confirm:$false
                 }
             }

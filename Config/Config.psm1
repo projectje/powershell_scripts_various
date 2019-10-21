@@ -30,6 +30,8 @@ Function Get-Config {
             foreach ($key in $_.keys) {
                 $config | Add-Member -Type NoteProperty -Name $key -Value $_[$key] -Force
              }
+             $config | Add-Member -Type NoteProperty -Name 'user' -Value $env:username -Force
+             $config | Add-Member -Type NoteProperty -Name 'userprofile' -Value $env:userprofile -Force
          }
     }
 
